@@ -17,17 +17,17 @@ turtleAngZ = 0.5
 
 squareDist = 2.0
 
-polygon = int(input("n : ")) #input nunber of polygon
-angleDegree = 360//polygon
-angleRadius = (angleDegree * 2 * np.pi)/360
-
 status = ""
 
 def poseReceived(position_data): #callback
     global currentPose  
     currentPose = [position_data.x, position_data.y, position_data.theta]
 
-def moveSquare():
+def moveSquare(polygon):
+    
+    angleDegree = 360//polygon 
+    angleRadius = (angleDegree * 2 * np.pi)/360 
+
     velocity_publisher = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     pose_subscriber = rospy.Subscriber('/turtle1/pose', Pose, poseReceived)
 
@@ -74,6 +74,7 @@ def moveSquare():
 
 if __name__ == '__main__':
     try:
-        moveSquare()
+        polygon = int(input("n : "))
+        moveSquare(polygon)
     except rospy.ROSInterruptException:
         pass
